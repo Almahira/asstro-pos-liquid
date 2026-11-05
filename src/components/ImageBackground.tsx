@@ -3,10 +3,10 @@ import { useThree } from "@react-three/fiber";
 import { Image, useTexture } from "@react-three/drei";
 import { useAppStore } from "../store/useAppStore";
 
-import landsacapeLight from "../assets/landsacape light.jpg";
-import landscapeDark from "../assets/landscape dark.jpg";
-import potraitDark from "../assets/potrait dark.jpg";
-import potraitLight from "../assets/potrait light.png";
+import landsacapeLight from "../assets/landsacape light.webp";
+import landscapeDark from "../assets/landscape dark.webp";
+import potraitDark from "../assets/potrait dark.webp";
+import potraitLight from "../assets/potrait light.webp";
 
 const BACKGROUND_Z = -10;
 
