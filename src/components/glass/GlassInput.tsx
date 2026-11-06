@@ -40,10 +40,14 @@ export const GlassInput: React.FC<Props> = ({
       placeholder={placeholder}
       required={required}
       onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
-      onFocus={() => setPressed(true)}
-      onBlur={() => setPressed(false)}
-      className={`relative w-full rounded-2xl px-5 py-4 outline-none text-base transition-shadow ${t.placeholderClass}`}
+      onPointerLeave={() => {
+        setHovered(false);
+        setPressed(false);
+      }}
+      onPointerDown={() => setPressed(true)}
+      onPointerUp={() => setPressed(false)}
+      onPointerCancel={() => setPressed(false)}
+      className={`relative w-full rounded-full px-5 py-4 outline-none text-base transition-all duration-300 focus:ring-2 focus:ring-primary/50 focus:bg-white/10 dark:focus:bg-black/20 ${t.placeholderClass}`}
       style={{
         backgroundColor: "transparent",
         border: "none",

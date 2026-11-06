@@ -73,11 +73,14 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <div className="relative h-screen w-screen bg-black overflow-hidden selection:bg-primary/30">
+      <div className="relative h-dvh w-full bg-black overflow-hidden selection:bg-primary/30">
         <Suspense fallback={<SplashLoading />}>
           <div className="absolute inset-0 z-0 pointer-events-none">
-            <Canvas camera={{ position: [0, 0, 6], fov: 45 }} dpr={[1, 2]}>
-              {/* ✅ Semua isi 3D sekarang di Scene.tsx */}
+            <Canvas
+              camera={{ position: [0, 0, 6], fov: 45 }}
+              dpr={[1, 2]}
+              gl={{ localClippingEnabled: true }}
+            >
               <Scene />
             </Canvas>
           </div>

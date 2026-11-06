@@ -44,7 +44,7 @@ export const GlassButton: React.FC<Props> = ({
       onPointerDown={() => setPressed(true)}
       onPointerUp={() => setPressed(false)}
       onPointerCancel={() => setPressed(false)}
-      className={`relative w-full rounded-2xl px-5 py-4 font-bold text-base outline-none flex items-center justify-center gap-2 select-none transition-shadow ${className}`}
+      className={`relative w-full rounded-full px-5 py-4 font-bold text-base outline-none flex items-center justify-center gap-2 select-none transition-shadow ${className}`}
       style={{
         backgroundColor: "transparent",
         border: "none",

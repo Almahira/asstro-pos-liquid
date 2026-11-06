@@ -14,6 +14,7 @@ export interface GlassRect {
   depth?: number;
   color?: string;
   radius?: number;
+  isContent?: boolean;
 }
 
 interface GlassRegistryStore {

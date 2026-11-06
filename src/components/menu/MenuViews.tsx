@@ -38,15 +38,17 @@ export const CatalogView: React.FC = () => {
           className="min-h-27.5"
         >
           <div className="text-3xl mb-2 drop-shadow-md">{menu.image}</div>
-          <p className="text-xs sm:text-sm font-bold text-center leading-tight line-clamp-2 h-8 sm:h-10">
-            {menu.name}
-          </p>
-          <p
-            className="text-[10px] sm:text-xs font-bold mt-1"
-            style={{ color: "inherit", opacity: 0.85 }}
-          >
-            Rp {menu.price / 1000}k
-          </p>
+          <div className="flex flex-col items-center w-full mt-auto backdrop-blur-md bg-white/5 dark:bg-black/10 rounded-xl p-1.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]">
+            <p className="text-xs sm:text-sm font-bold text-center leading-tight line-clamp-2 h-8 sm:h-10">
+              {menu.name}
+            </p>
+            <p
+              className="text-[10px] sm:text-xs font-bold mt-1"
+              style={{ color: "inherit", opacity: 0.85 }}
+            >
+              Rp {menu.price / 1000}k
+            </p>
+          </div>
         </GlassCard>
       ))}
     </div>
@@ -57,7 +59,7 @@ export const CatalogView: React.FC = () => {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
-      className="h-full overflow-y-auto p-4 pb-24"
+      className="h-full overflow-y-auto p-4"
     >
       <h2 className="text-sm font-bold mb-3 opacity-80">
         MAKANAN (Bintang Tertinggi)
@@ -97,7 +99,7 @@ export const CartView: React.FC = () => {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="h-full overflow-y-auto p-4 pb-32 flex flex-col gap-4"
+      className="h-full overflow-y-auto p-4 flex flex-col gap-4"
     >
       {cart.map((item) => (
         <GlassCard key={item.id} className="items-stretch! p-4!">

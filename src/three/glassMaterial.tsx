@@ -1,4 +1,5 @@
 import React from "react";
+import * as THREE from "three";
 import { MeshTransmissionMaterial } from "@react-three/drei";
 import type { GlassTier } from "./useGlassTier";
 
@@ -8,18 +9,19 @@ export interface GlassMaterialProps {
   thickness?: number;
   ior?: number;
   roughness?: number;
+  clippingPlanes?: THREE.Plane[]; // <-- TAMBAHKAN INI
 }
 
-/**
- * Material dipilih per-tier:
- * - hero     → MeshTransmissionMaterial (render pass tambahan, "wow" refraction)
- * - standard → meshPhysicalMaterial native Three (transmission built-in, jauh lebih murah)
- *
- * ref di-passing via forwardRef supaya LiquidGlass bisa animate property.
- */
 export const GlassMaterial = React.forwardRef<any, GlassMaterialProps>(
   function GlassMaterial(
-    { tier, color = "#ffffff", thickness = 1.2, ior = 1.45, roughness = 0.04 },
+    {
+      tier,
+      color = "#ffffff",
+      thickness = 1.2,
+      ior = 1.45,
+      roughness = 0.04,
+      clippingPlanes,
+    },
     ref,
   ) {
     if (tier === "hero") {
@@ -36,6 +38,7 @@ export const GlassMaterial = React.forwardRef<any, GlassMaterialProps>(
           distortionScale={0.5}
           temporalDistortion={0.05}
           color={color}
+          clippingPlanes={clippingPlanes}
         />
       );
     }
@@ -54,6 +57,7 @@ export const GlassMaterial = React.forwardRef<any, GlassMaterialProps>(
         metalness={0}
         emissive={color}
         emissiveIntensity={0}
+        clippingPlanes={clippingPlanes}
       />
     );
   },

@@ -1,13 +1,16 @@
 import React, { useMemo, useRef } from "react";
 import { RoundedBox } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGlassTier, type GlassTier } from "./useGlassTier";
 import { GlassMaterial } from "./glassMaterial";
+import { usePxToWorld } from "./usePxToWorld";
 
 export type GlassShape = "card" | "button" | "capsule" | "circle" | "blob";
 
 export interface LiquidGlassProps {
+  glassId?: string;
+  isContent?: boolean;
   shape?: GlassShape;
   /** Lebar dalam world units — gunakan usePxToWorld().px(pxCss) */
   width: number;
@@ -31,6 +34,8 @@ export interface LiquidGlassProps {
 }
 
 export const LiquidGlass: React.FC<LiquidGlassProps> = ({
+  glassId,
+  isContent,
   shape = "card",
   width,
   height,
@@ -46,14 +51,52 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
   pressed = false,
   children,
 }) => {
+  const { placeAt, screenToWorld } = usePxToWorld();
+  const { size } = useThree(); // <-- Ambil ukuran layar 3D
+  const groupRef = useRef<THREE.Group>(null);
   const autoTier = useGlassTier();
   const tier = tierProp ?? autoTier;
-
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<any>(null);
 
+  // LOGIKA PISAU PEMOTONG (CLIPPING)
+  const clippingPlanes = useMemo(() => {
+    if (!isContent) return undefined;
+
+    // Ambil batas ruang dari tag <main> secara dinamis
+    const mainEl = document.querySelector("main");
+    if (!mainEl) return undefined;
+
+    const rect = mainEl.getBoundingClientRect();
+
+    // Potong 3D Glass persis di garis atas dan bawah elemen <main>
+    const [, topY] = screenToWorld(0, rect.top);
+    const [, bottomY] = screenToWorld(0, rect.bottom);
+
+    return [
+      new THREE.Plane(new THREE.Vector3(0, -1, 0), topY), // Pembatas Header
+      new THREE.Plane(new THREE.Vector3(0, 1, 0), -bottomY), // Pembatas Footer
+    ];
+  }, [isContent, screenToWorld, size.height]);
+
   // Animasi reaktif — press-in scale + distortion/emissive per tier
   useFrame((_, delta) => {
+    if (glassId && groupRef.current) {
+      const el = document.getElementById(`glass-dom-${glassId}`);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        // Translasi posisi layar HP langsung ke koordinat dunia 3D
+        const [x, y, z] = placeAt(
+          rect.left,
+          rect.top,
+          rect.width,
+          rect.height,
+          position[2] ?? 0,
+        );
+        groupRef.current.position.set(x, y, z);
+      }
+    }
+
     if (!meshRef.current || !materialRef.current) return;
     const m = materialRef.current;
 
@@ -121,7 +164,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
   const safeRadius = Math.min(autoRadius, width / 2, height / 2);
 
   return (
-    <group position={position} rotation={rotation}>
+    <group ref={groupRef} position={position} rotation={rotation}>
       {shape === "blob" && blobGeometry ? (
         <mesh ref={meshRef} geometry={blobGeometry}>
           <GlassMaterial
@@ -130,6 +173,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
             color={color}
             thickness={thickness}
             ior={ior}
+            clippingPlanes={clippingPlanes}
           />
         </mesh>
       ) : (
@@ -145,6 +189,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
             color={color}
             thickness={thickness}
             ior={ior}
+            clippingPlanes={clippingPlanes}
           />
         </RoundedBox>
       )}

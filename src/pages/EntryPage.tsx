@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QrCode, ArrowRight, UtensilsCrossed } from "lucide-react";
+import { QrCode, ArrowRight, UtensilsCrossed, Sun, Moon } from "lucide-react";
 import { useAppStore } from "../store/useAppStore";
 import { GlassInput } from "../components/glass/GlassInput";
 import { GlassButton } from "../components/glass/GlassButton";
@@ -28,7 +28,7 @@ const EntryPage: React.FC = () => {
         {/* Tombol tema di pojok kanan atas */}
         <div className="absolute -top-14 right-2">
           <GlassIconButton onClick={toggleTheme} ariaLabel="Toggle tema">
-            <span className="text-base">{theme === "dark" ? "☀️" : "🌙"}</span>
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </GlassIconButton>
         </div>
 

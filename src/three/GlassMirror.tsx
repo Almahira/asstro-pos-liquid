@@ -14,6 +14,8 @@ export const GlassMirror: React.FC = () => {
         return (
           <LiquidGlass
             key={id}
+            glassId={id}
+            isContent={rect.isContent}
             shape={rect.shape}
             width={px(rect.w)}
             height={px(rect.h)}

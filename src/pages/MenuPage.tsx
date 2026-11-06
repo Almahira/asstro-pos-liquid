@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { Filter, ShoppingCart, ChevronLeft } from "lucide-react";
+import { Filter, ShoppingCart, ChevronLeft, Sun, Moon } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useAppStore } from "../store/useAppStore";
 import {
@@ -60,9 +60,7 @@ const MenuPage: React.FC = () => {
 
               <div className="flex items-center gap-2 sm:gap-3">
                 <GlassIconButton onClick={toggleTheme} ariaLabel="Toggle tema">
-                  <span className="text-base">
-                    {theme === "dark" ? "☀️" : "🌙"}
-                  </span>
+                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
                 </GlassIconButton>
 
                 <GlassIconButton ariaLabel="Filter">
@@ -106,7 +104,7 @@ const MenuPage: React.FC = () => {
 
       {/* FOOTER — floating glass panel */}
       {showFooter && (
-        <footer className="absolute bottom-0 left-0 w-full p-3 sm:p-4 z-20 pointer-events-none">
+        <footer className="w-full p-3 sm:p-4 z-20 pointer-events-none shrink-0">
           <GlassPanel className="max-w-7xl mx-auto px-5 py-4 pointer-events-auto rounded-2xl">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col">

@@ -45,7 +45,7 @@ export const GlassIconButton: React.FC<Props> = ({
       onPointerDown={() => setPressed(true)}
       onPointerUp={() => setPressed(false)}
       onPointerCancel={() => setPressed(false)}
-      className="relative flex items-center justify-center select-none outline-none transition-shadow"
+      className="relative flex items-center justify-center select-none outline-none transition-shadow rounded-full"
       style={{
         width: size,
         height: size,
